@@ -32,7 +32,13 @@ public class HibernateRunner {
                     .build();
 
 //            session.persist(user);
-//            session.remove(user);
+//            User user1 = session.get(User.class, "john1@mail.ru");
+            User user1 = session.find(User.class, "john1@mail.ru");
+            user1.setFirstname("john");
+//            session.flush();
+//            session.clear();
+            session.evict(user1);
+            System.out.println(user1);
 
             session.getTransaction().commit();
         }
