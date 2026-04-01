@@ -27,22 +27,12 @@ public class HibernateRunner {
 
             session1.beginTransaction();
 
-            // PERSISTENT к session1 и TRANSIENT к session2
             session1.persist(user);
+            user.setFirstname("Anna");
+            System.out.println(session1.isDirty());
+            System.out.println(user);
 
             session1.getTransaction().commit();
-        }
-
-        try (SessionFactory sessionFactory = HibernateUtil.buildSessionFactory();
-             Session session2 = sessionFactory.openSession()) {
-
-            session2.beginTransaction();
-
-            // Сначала GET потом DELETE PERSISTENCE к session2 DETACHED к session1
-            session2.remove(user);
-
-            // REMOVED к session2
-            session2.getTransaction().commit();
         }
     }
 }
