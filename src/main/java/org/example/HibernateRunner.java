@@ -1,19 +1,17 @@
 package org.example;
 
+import lombok.extern.slf4j.Slf4j;
 import org.example.entity.Birthday;
 import org.example.entity.Role;
 import org.example.entity.User;
 import org.example.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
 
+@Slf4j
 public class HibernateRunner {
-
-    private static final Logger log = LoggerFactory.getLogger(HibernateRunner.class);
 
     public static void main(String[] args) {
 
