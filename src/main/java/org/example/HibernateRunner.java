@@ -2,6 +2,7 @@ package org.example;
 
 import lombok.extern.slf4j.Slf4j;
 import org.example.entity.Birthday;
+import org.example.entity.PersonalInfo;
 import org.example.entity.Role;
 import org.example.entity.User;
 import org.example.util.HibernateUtil;
@@ -18,9 +19,11 @@ public class HibernateRunner {
         // TRANSIENT
         User user = User.builder()
                 .username("john1@mail.ru")
-                .firstname("john")
-                .lastname("smitch")
-                .birthDate(new Birthday(LocalDate.of(2000, 1, 1)))
+                .personalInfo(PersonalInfo.builder()
+                        .firstname("john")
+                        .lastname("smitch")
+                        .birthDate(new Birthday(LocalDate.of(2000, 1, 1)))
+                        .build())
                 .role(Role.USER)
                 .build();
 
@@ -33,7 +36,7 @@ public class HibernateRunner {
             session1.beginTransaction();
 
             session1.merge(user);
-            user.setFirstname("Anna");
+//            user.setFirstname("Anna");
             log.warn("User first name was changed: {}", user);
             System.out.println(session1.isDirty());
             System.out.println(user);
