@@ -33,8 +33,11 @@ public class HibernateRunner {
 
             session1.beginTransaction();
 
-            session1.persist(company);
-            session1.persist(user);
+//            session1.persist(company);
+//            session1.persist(user);
+            var user2 = session1.find(User.class, 1);
+            System.out.println(user2);
+//            session1.remove(user2);
 
             session1.getTransaction().commit();
         } catch (Exception e) {
