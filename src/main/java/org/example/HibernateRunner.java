@@ -37,6 +37,7 @@ public class HibernateRunner {
 //            session1.persist(user);
             var user2 = session1.find(User.class, 1);
             System.out.println(user2);
+            System.out.println(user2.getCompany().getName());
 //            session1.remove(user2);
 
             session1.getTransaction().commit();
