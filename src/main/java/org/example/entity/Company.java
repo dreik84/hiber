@@ -22,6 +22,6 @@ public class Company {
     @Column(unique = true, nullable = false)
     private String name;
 
-    @OneToMany
+    @OneToMany(mappedBy = "company")
     private List<User> users;
 }
