@@ -1,16 +1,15 @@
 package org.example.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = "users")
+@EqualsAndHashCode(of = "name")
 @Builder
 @Entity
 @Table(name = "company", schema = "public")
@@ -23,5 +22,5 @@ public class Company {
     private String name;
 
     @OneToMany(mappedBy = "company")
-    private List<User> users;
+    private Set<User> users;
 }

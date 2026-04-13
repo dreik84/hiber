@@ -7,6 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString(exclude = "company")
+@EqualsAndHashCode(of = "username")
 @Builder
 @Entity
 @Table(name = "users", schema = "public")
@@ -14,6 +15,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false, unique = true)
     private String username;
     @Embedded
     private PersonalInfo personalInfo;
