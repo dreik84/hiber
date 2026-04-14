@@ -1,7 +1,5 @@
 package org.example;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Table;
 import lombok.Cleanup;
 import org.example.entity.Company;
 import org.example.entity.User;
@@ -10,17 +8,41 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.Field;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 class HibernateRunnerTest {
+
+    @Test
+    void checkOrphanRemoval() {
+        @Cleanup SessionFactory sessionFactory = HibernateUtil.buildSessionFactory();
+        @Cleanup Session session = sessionFactory.openSession();
+
+        session.beginTransaction();
+
+        Company company = session.find(Company.class, 1);
+        company.getUsers().removeIf(user -> user.getId() == 2);
+
+        session.getTransaction().commit();
+    }
+
+    @Test
+    void addNewUserAndCompany() {
+        @Cleanup SessionFactory sessionFactory = HibernateUtil.buildSessionFactory();
+        @Cleanup Session session = sessionFactory.openSession();
+
+        session.beginTransaction();
+
+        Company company = Company.builder()
+                .name("Yandex")
+                .build();
+
+        User user = User.builder()
+                .username("john3@mail.ru")
+                .build();
+
+        company.addUser(user);
+        session.persist(company);
+
+        session.getTransaction().commit();
+    }
 
     @Test
     void checkOneToMany() {
