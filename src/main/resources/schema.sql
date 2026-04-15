@@ -17,3 +17,10 @@ CREATE TABLE IF NOT EXISTS users
     role       VARCHAR(32),
     company_id INT REFERENCES company (id)
 );
+
+CREATE TABLE IF NOT EXISTS profile
+(
+    user_id  BIGINT PRIMARY KEY REFERENCES users (id),
+    street   VARCHAR(128),
+    language CHAR(2)
+);

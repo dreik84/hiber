@@ -6,7 +6,7 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude = "company")
+@ToString(exclude = {"company", "profile"})
 @EqualsAndHashCode(of = "username")
 @Builder
 @Entity
@@ -25,4 +25,7 @@ public class User {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
     private Company company;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Profile profile;
 }
