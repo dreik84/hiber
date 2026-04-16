@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS company;
+DROP TABLE IF EXISTS profile;
 
 CREATE TABLE IF NOT EXISTS company
 (
@@ -21,6 +22,14 @@ CREATE TABLE IF NOT EXISTS users
 CREATE TABLE IF NOT EXISTS profile
 (
     user_id  BIGINT PRIMARY KEY REFERENCES users (id),
+    street   VARCHAR(128),
+    language CHAR(2)
+);
+
+CREATE TABLE IF NOT EXISTS profile
+(
+    id BIGSERIAL PRIMARY KEY,
+    user_id  BIGINT NOT NULL UNIQUE REFERENCES users (id),
     street   VARCHAR(128),
     language CHAR(2)
 );

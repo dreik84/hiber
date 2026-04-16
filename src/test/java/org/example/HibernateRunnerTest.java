@@ -2,6 +2,7 @@ package org.example;
 
 import lombok.Cleanup;
 import org.example.entity.Company;
+import org.example.entity.Profile;
 import org.example.entity.User;
 import org.example.util.HibernateUtil;
 import org.hibernate.Session;
@@ -9,6 +10,28 @@ import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.Test;
 
 class HibernateRunnerTest {
+
+    @Test
+    void checkOneToOne() {
+        @Cleanup SessionFactory sessionFactory = HibernateUtil.buildSessionFactory();
+        @Cleanup Session session = sessionFactory.openSession();
+
+        session.beginTransaction();
+
+        User user = User.builder()
+                .username("john5@mail.ru")
+                .build();
+
+        Profile profile = Profile.builder()
+                .street("Pobedy 1")
+                .build();
+
+        session.persist(user);
+        profile.setUser(user);
+        session.persist(profile);
+
+        session.getTransaction().commit();
+    }
 
     @Test
     void checkOrphanRemoval() {
