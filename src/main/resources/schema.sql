@@ -28,8 +28,21 @@ CREATE TABLE IF NOT EXISTS profile
 
 CREATE TABLE IF NOT EXISTS profile
 (
-    id BIGSERIAL PRIMARY KEY,
+    id       BIGSERIAL PRIMARY KEY,
     user_id  BIGINT NOT NULL UNIQUE REFERENCES users (id),
     street   VARCHAR(128),
     language CHAR(2)
+);
+
+CREATE TABLE IF NOT EXISTS chat
+(
+    id   BIGSERIAL PRIMARY KEY,
+    name VARCHAR(64) NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS users_chat
+(
+    user_id BIGINT REFERENCES users (id),
+    chat_id BIGINT REFERENCES chat (id),
+    PRIMARY KEY (user_id, chat_id)
 );
