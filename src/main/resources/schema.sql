@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS company;
 DROP TABLE IF EXISTS profile;
+DROP TABLE IF EXISTS users_chat;
 
 CREATE TABLE IF NOT EXISTS company
 (
@@ -45,4 +46,13 @@ CREATE TABLE IF NOT EXISTS users_chat
     user_id BIGINT REFERENCES users (id),
     chat_id BIGINT REFERENCES chat (id),
     PRIMARY KEY (user_id, chat_id)
+);
+
+CREATE TABLE IF NOT EXISTS users_chat
+(
+    id         BIGSERIAL PRIMARY KEY,
+    user_id    BIGINT REFERENCES users (id),
+    chat_id    BIGINT REFERENCES chat (id),
+    created_at TIMESTAMP    NOT NULL,
+    created_by VARCHAR(128) NOT NULL
 );

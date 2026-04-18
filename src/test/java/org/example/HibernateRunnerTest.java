@@ -1,6 +1,7 @@
 package org.example;
 
 import lombok.Cleanup;
+import org.example.entity.Chat;
 import org.example.entity.Company;
 import org.example.entity.Profile;
 import org.example.entity.User;
@@ -10,6 +11,24 @@ import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.Test;
 
 class HibernateRunnerTest {
+
+    @Test
+    void checkManyToMany() {
+        @Cleanup SessionFactory sessionFactory = HibernateUtil.buildSessionFactory();
+        @Cleanup Session session = sessionFactory.openSession();
+
+        session.beginTransaction();
+
+        Chat chat = Chat.builder()
+                .name("javaguru")
+                .build();
+
+        User user = session.find(User.class, 5);
+        user.addChat(chat);
+        session.persist(chat);
+
+        session.getTransaction().commit();
+    }
 
     @Test
     void checkOneToOne() {
