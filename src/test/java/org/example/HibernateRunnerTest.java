@@ -1,14 +1,13 @@
 package org.example;
 
 import lombok.Cleanup;
-import org.example.entity.Chat;
-import org.example.entity.Company;
-import org.example.entity.Profile;
-import org.example.entity.User;
+import org.example.entity.*;
 import org.example.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.Test;
+
+import java.time.Instant;
 
 class HibernateRunnerTest {
 
@@ -19,12 +18,20 @@ class HibernateRunnerTest {
 
         session.beginTransaction();
 
-        Chat chat = Chat.builder()
-                .name("javaguru")
+        User user = session.find(User.class, 5);
+        Chat chat = session.find(Chat.class, 1);
+        UserChat userChat = UserChat.builder()
+                .chat(chat)
+                .user(user)
+                .createdAt(Instant.now())
+                .createdBy("Andrey")
                 .build();
 
-        User user = session.find(User.class, 5);
-        user.addChat(chat);
+        userChat.setChat(chat);
+        userChat.setUser(user);
+
+        session.persist(userChat);
+
         session.persist(chat);
 
         session.getTransaction().commit();
