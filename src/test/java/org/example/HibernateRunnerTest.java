@@ -12,6 +12,22 @@ import java.time.Instant;
 class HibernateRunnerTest {
 
     @Test
+    void checkH2() {
+        @Cleanup SessionFactory sessionFactory = HibernateUtil.buildSessionFactory();
+        @Cleanup Session session = sessionFactory.openSession();
+
+        session.beginTransaction();
+
+        Company company = Company.builder()
+                .name("Google")
+                .build();
+
+        session.persist(company);
+
+        session.getTransaction().commit();
+    }
+
+    @Test
     void checkManyToMany() {
         @Cleanup SessionFactory sessionFactory = HibernateUtil.buildSessionFactory();
         @Cleanup Session session = sessionFactory.openSession();
