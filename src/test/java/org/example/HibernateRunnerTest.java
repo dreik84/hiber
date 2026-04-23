@@ -12,6 +12,44 @@ import java.time.Instant;
 class HibernateRunnerTest {
 
     @Test
+    void checkInheritance() {
+        @Cleanup SessionFactory sessionFactory = HibernateUtil.buildSessionFactory();
+        @Cleanup Session session = sessionFactory.openSession();
+
+        session.beginTransaction();
+
+        Company company = Company.builder()
+                .name("Yandex")
+                .build();
+
+        session.persist(company);
+
+        Programmer programmer = Programmer.builder()
+                .username("john@gmail.ru")
+                .language(Language.JAVA)
+                .company(company)
+                .build();
+
+        session.persist(programmer);
+
+        Manager manager = Manager.builder()
+                .username("petr@gmail.com")
+                .project("Java Enterprise")
+                .company(company)
+                .build();
+
+        session.persist(manager);
+
+        session.flush();
+        session.clear();
+
+        var programmer1 = session.find(Programmer.class, 1L);
+        var manager1 = session.find(User.class, 2L);
+
+        session.getTransaction().commit();
+    }
+
+    @Test
     void checkH2() {
         @Cleanup SessionFactory sessionFactory = HibernateUtil.buildSessionFactory();
         @Cleanup Session session = sessionFactory.openSession();
@@ -61,17 +99,17 @@ class HibernateRunnerTest {
 
         session.beginTransaction();
 
-        User user = User.builder()
-                .username("john5@mail.ru")
-                .build();
-
-        Profile profile = Profile.builder()
-                .street("Pobedy 1")
-                .build();
-
-        session.persist(user);
-        profile.setUser(user);
-        session.persist(profile);
+//        User user = User.builder()
+//                .username("john5@mail.ru")
+//                .build();
+//
+//        Profile profile = Profile.builder()
+//                .street("Pobedy 1")
+//                .build();
+//
+//        session.persist(user);
+//        profile.setUser(user);
+//        session.persist(profile);
 
         session.getTransaction().commit();
     }
@@ -100,12 +138,12 @@ class HibernateRunnerTest {
                 .name("Yandex")
                 .build();
 
-        User user = User.builder()
-                .username("john3@mail.ru")
-                .build();
-
-        company.addUser(user);
-        session.persist(company);
+//        User user = User.builder()
+//                .username("john3@mail.ru")
+//                .build();
+//
+//        company.addUser(user);
+//        session.persist(company);
 
         session.getTransaction().commit();
     }
