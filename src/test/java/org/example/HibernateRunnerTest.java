@@ -19,10 +19,10 @@ class HibernateRunnerTest {
         session.beginTransaction();
 
         var name = "Pavel";
-        var users = session.createQuery("""
-                select u from User u
-                where u.personalInfo.firstname = :firstname
-                """).setParameter("firstname", name).list();
+        var users = session.createNamedQuery("findUserByNameAndCompany")
+                .setParameter("firstname", name)
+                .setParameter("company", "Yandex")
+                .list();
 
         System.out.println(users);
 

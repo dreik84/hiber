@@ -6,6 +6,12 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@NamedQuery(name = "findUserByNameAndCompany", query = """
+        select u from User u
+                                left join u.company c
+                                where u.personalInfo.firstname = :firstname
+                                and c.name = :company
+        """)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
