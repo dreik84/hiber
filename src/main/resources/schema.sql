@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS company;
 DROP TABLE IF EXISTS profile;
 DROP TABLE IF EXISTS users_chat;
+DROP TABLE IF EXISTS payment;
 
 CREATE TABLE IF NOT EXISTS company
 (
@@ -18,6 +19,14 @@ CREATE TABLE IF NOT EXISTS users
     birth_date DATE,
     role       VARCHAR(32),
     company_id INT REFERENCES company (id)
+);
+
+CREATE TABLE IF NOT EXISTS payment
+(
+    id          BIGSERIAL PRIMARY KEY,
+    amount      INTEGER NOT NULL,
+    version     BIGINT  NOT NULL DEFAULT 0,
+    receiver_id BIGINT REFERENCES users (id)
 );
 
 CREATE TABLE IF NOT EXISTS profile
