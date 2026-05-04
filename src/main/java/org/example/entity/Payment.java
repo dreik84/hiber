@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OptimisticLockType;
 import org.hibernate.annotations.OptimisticLocking;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 
 @Data
 @NoArgsConstructor
@@ -14,6 +16,7 @@ import org.hibernate.annotations.OptimisticLocking;
 @Builder
 @Entity
 @OptimisticLocking(type = OptimisticLockType.VERSION)
+@Audited
 public class Payment {
 
     @Id
@@ -28,5 +31,6 @@ public class Payment {
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "receiver_id")
+    @NotAudited
     private User receiver;
 }

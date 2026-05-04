@@ -15,19 +15,16 @@ public class HibernateRunner {
 
 
         try (SessionFactory sessionFactory = HibernateUtil.buildSessionFactory();
-             Session session = sessionFactory.openSession();
-             Session session1 = sessionFactory.openSession()) {
+             Session session = sessionFactory.openSession()) {
 
             session.beginTransaction();
-            session1.beginTransaction();
+
+//            session.createNativeQuery("SET TRANSACTION READ ONLY ").executeUpdate();
 
             User user = session.find(User.class, 2L);
 
             Payment payment = session.find(Payment.class, 1L, LockModeType.OPTIMISTIC);
             payment.setAmount(payment.getAmount() + 10);
-
-            Payment payment1 = session1.find(Payment.class, 1L, LockModeType.OPTIMISTIC);
-            payment1.setAmount(payment1.getAmount() + 30);
 
 //            Payment payment = Payment.builder()
 //                    .amount(600)
@@ -36,9 +33,7 @@ public class HibernateRunner {
 //
 //            session.persist(payment);
 
-
             session.getTransaction().commit();
-            session1.getTransaction().commit();
         } catch (Exception e) {
             log.error("Exception occurred: ", e);
         }
