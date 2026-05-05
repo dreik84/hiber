@@ -16,7 +16,6 @@ import org.hibernate.envers.NotAudited;
 @Builder
 @Entity
 @OptimisticLocking(type = OptimisticLockType.VERSION)
-@Audited
 public class Payment {
 
     @Id
@@ -31,6 +30,5 @@ public class Payment {
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "receiver_id")
-    @NotAudited
     private User receiver;
 }
