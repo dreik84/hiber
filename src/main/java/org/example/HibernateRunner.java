@@ -18,19 +18,13 @@ public class HibernateRunner {
 
             session.beginTransaction();
 
-            user = session.find(User.class, 1L);
-            User user1 = session.find(User.class, 1L);
+            user = User.builder()
+                    .username("tom")
+                    .build();
+
+            session.persist(user);
 
             session.getTransaction().commit();
-        }
-
-        try (Session session1 = sessionFactory.openSession()) {
-
-            session1.beginTransaction();
-
-            user = session1.find(User.class, 1L);
-
-            session1.getTransaction().commit();
         }
     }
 }
