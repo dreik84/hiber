@@ -8,15 +8,13 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OptimisticLockType;
 import org.hibernate.annotations.OptimisticLocking;
 
-import java.io.Serializable;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
 @OptimisticLocking(type = OptimisticLockType.VERSION)
-public class Payment implements BaseEntity {
+public class Payment implements BaseEntity<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,9 +29,4 @@ public class Payment implements BaseEntity {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "receiver_id")
     private User receiver;
-
-    @Override
-    public void setId(Serializable id) {
-//        this.id = id;
-    }
 }
