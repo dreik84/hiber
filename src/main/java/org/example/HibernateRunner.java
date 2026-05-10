@@ -6,13 +6,20 @@ import org.example.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import java.lang.reflect.Proxy;
+
 @Slf4j
 public class HibernateRunner {
 
     public static void main(String[] args) {
 
-        try (SessionFactory sessionFactory = HibernateUtil.buildSessionFactory();
-             Session session = sessionFactory.getCurrentSession()) {
+        try (SessionFactory sessionFactory = HibernateUtil.buildSessionFactory()) {
+
+            Session session = (Session) Proxy.newProxyInstance(
+                    SessionFactory.class.getClassLoader(),
+                    new Class[]{Session.class},
+                    ((proxy, method, args1) -> method.invoke(sessionFactory.getCurrentSession(), args1))
+            );
 
             session.beginTransaction();
 
